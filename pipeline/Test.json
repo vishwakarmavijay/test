@@ -111,32 +111,7 @@
 					"sink": {
 						"type": "SqlServerSink"
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "Test",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Test",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "ID",
-									"type": "Int32"
-								},
-								"sink": {
-									"name": "ID",
-									"type": "Int32"
-								}
-							}
-						]
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{
