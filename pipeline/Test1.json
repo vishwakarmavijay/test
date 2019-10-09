@@ -165,6 +165,26 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Pipeline Test1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "On Completion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Test",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"variables": {
