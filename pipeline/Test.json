@@ -65,7 +65,7 @@
 				}
 			},
 			{
-				"name": "On Success",
+				"name": "On Success of If",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -152,7 +152,7 @@
 				]
 			},
 			{
-				"name": "On Success",
+				"name": "On Success of DividebyZeroError",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -165,7 +165,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "CountofRecords",
-					"value": "1"
+					"value": "3"
 				}
 			},
 			{
@@ -176,6 +176,23 @@
 						"activity": "DividebyZeroError",
 						"dependencyConditions": [
 							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CountofRecords",
+					"value": "2"
+				}
+			},
+			{
+				"name": "On Failure",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DividebyZeroError",
+						"dependencyConditions": [
+							"Failed"
 						]
 					}
 				],
