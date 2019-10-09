@@ -1,0 +1,42 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "spSelectAll",
+				"description": "spSelectAll",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[spSelectAll]"
+				},
+				"linkedServiceName": {
+					"referenceName": "VijKu",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "CountGrtThan4",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "spSelectAll",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": []
+			}
+		],
+		"annotations": []
+	}
+}
