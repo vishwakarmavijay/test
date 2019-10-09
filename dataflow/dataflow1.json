@@ -5,12 +5,20 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
 					"name": "source1"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
-			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100) ~> source1"
+			"transformations": [
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: true,\n\tlimit: 100) ~> source1\nsource1 select(mapColumn(\n\t\tColumn_1\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1"
 		}
 	}
 }
