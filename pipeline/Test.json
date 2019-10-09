@@ -40,6 +40,17 @@
 						"value": "@greater(activity('spSelectAll').output,variables('CountofRecords'))",
 						"type": "Expression"
 					},
+					"ifFalseActivities": [
+						{
+							"name": "WaitFalse",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "WaitTrue",
