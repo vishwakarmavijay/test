@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "Test",
 	"properties": {
 		"activities": [
 			{
@@ -34,9 +34,41 @@
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "1+1",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set Count",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "CountGrtThan4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CountofRecords",
+					"value": {
+						"value": "@activity('spSelectAll').output",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"variables": {
+			"CountofRecords": {
+				"type": "String",
+				"defaultValue": "0"
+			}
+		},
 		"annotations": []
 	}
 }
