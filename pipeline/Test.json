@@ -111,7 +111,22 @@
 					"sink": {
 						"type": "SqlServerSink"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "Test",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
