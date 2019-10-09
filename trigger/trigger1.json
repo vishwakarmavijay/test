@@ -2,15 +2,22 @@
 	"name": "trigger1",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
-		"pipelines": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Test",
+					"type": "PipelineReference"
+				}
+			}
+		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
 				"frequency": "Minute",
 				"interval": 1,
 				"startTime": "2019-10-09T09:48:00.000Z",
-				"endTime": "2019-10-10T09:55:00.000Z",
+				"endTime": "2019-10-09T09:55:00.000Z",
 				"timeZone": "UTC"
 			}
 		}
