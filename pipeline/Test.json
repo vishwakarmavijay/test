@@ -37,7 +37,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@greater(activity('spSelectAll').output,variables('CountofRecords'))",
+						"value": "@equals(string(activity('spSelectAll').output), string(variables('CountofRecords')))",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -65,7 +65,7 @@
 				}
 			},
 			{
-				"name": "Set Count",
+				"name": "On Success",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -79,9 +79,110 @@
 				"typeProperties": {
 					"variableName": "CountofRecords",
 					"value": {
-						"value": "@activity('spSelectAll').output",
+						"value": "@string(activity('spSelectAll').output)",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "DividebyZeroError",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "spSelectAll",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "BEGIN TRY\n    -- Generate a divide-by-zero error.\n    SELECT 1/0;\nEND TRY\nBEGIN CATCH\n    Raiserror('Dead', 15, 102)\nEND CATCH;"
+					},
+					"sink": {
+						"type": "SqlServerSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Test",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Test",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Int32"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "TestTable",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TestTable",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "On Success",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DividebyZeroError",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CountofRecords",
+					"value": "1"
+				}
+			},
+			{
+				"name": "On Completion",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DividebyZeroError",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CountofRecords",
+					"value": "1"
 				}
 			}
 		],
