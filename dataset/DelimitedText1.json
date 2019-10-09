@@ -1,5 +1,5 @@
 {
-	"name": "MyCSV",
+	"name": "DelimitedText1",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "P360.csv",
 				"container": "myfirst"
 			},
 			"columnDelimiter": ",",
