@@ -117,8 +117,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "",
-									"type": "Int32"
+									"name": "1"
 								},
 								"sink": {
 									"name": "Test",
