@@ -1,0 +1,26 @@
+{
+	"name": "TestTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "VijKu",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "Test",
+				"type": "nchar"
+			},
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TestTable"
+		}
+	}
+}
