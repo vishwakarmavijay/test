@@ -37,9 +37,20 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@activity('spSelectAll').output",
+						"value": "@greater(activity('spSelectAll').output,variables('CountofRecords'))",
 						"type": "Expression"
-					}
+					},
+					"ifTrueActivities": [
+						{
+							"name": "WaitTrue",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					]
 				}
 			},
 			{
