@@ -85,8 +85,59 @@
 				}
 			},
 			{
-				"name": "DividebyZeroError",
-				"type": "Copy",
+				"name": "On Success of DividebyZeroError",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DivideByZero",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CountofRecords",
+					"value": "3"
+				}
+			},
+			{
+				"name": "On Completion",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DivideByZero",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CountofRecords",
+					"value": "2"
+				}
+			},
+			{
+				"name": "On Failure",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DivideByZero",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CountofRecords",
+					"value": "1"
+				}
+			},
+			{
+				"name": "DivideByZero",
+				"type": "Lookup",
 				"dependsOn": [
 					{
 						"activity": "spSelectAll",
@@ -108,87 +159,11 @@
 						"type": "SqlServerSource",
 						"sqlReaderQuery": "BEGIN TRY\n    -- Generate a divide-by-zero error.\n    SELECT 1/0;\nEND TRY\nBEGIN CATCH\n    Raiserror('Dead', 15, 102)\nEND CATCH;"
 					},
-					"sink": {
-						"type": "SqlServerSink"
+					"dataset": {
+						"referenceName": "TestTable",
+						"type": "DatasetReference"
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "1"
-								},
-								"sink": {
-									"name": "Test",
-									"type": "String"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "TestTable",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "TestTable",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "On Success of DividebyZeroError",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "DividebyZeroError",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "CountofRecords",
-					"value": "3"
-				}
-			},
-			{
-				"name": "On Completion",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "DividebyZeroError",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "CountofRecords",
-					"value": "2"
-				}
-			},
-			{
-				"name": "On Failure",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "DividebyZeroError",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "CountofRecords",
-					"value": "1"
+					"firstRowOnly": false
 				}
 			}
 		],
