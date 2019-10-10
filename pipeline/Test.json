@@ -171,7 +171,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "On Success of DividebyZeroError",
+						"activity": "On Completion",
 						"dependencyConditions": [
 							"Succeeded"
 						]
