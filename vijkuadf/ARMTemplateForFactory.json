@@ -150,14 +150,7 @@
 					{
 						"name": "On Failure",
 						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "DivideByZero",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
+						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"variableName": "CountofRecords",

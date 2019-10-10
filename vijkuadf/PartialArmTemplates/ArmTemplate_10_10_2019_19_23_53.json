@@ -1,0 +1,190 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "vijkuadf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Test')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "spSelectAll",
+						"description": "spSelectAll",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[spSelectAll]"
+						},
+						"linkedServiceName": {
+							"referenceName": "VijKu",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "CountGrtThan4",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "spSelectAll",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(string(activity('spSelectAll').output), string(variables('CountofRecords')))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "WaitFalse",
+									"type": "Wait",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"waitTimeInSeconds": 1
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "WaitTrue",
+									"type": "Wait",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"waitTimeInSeconds": 1
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "On Success of If",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "CountGrtThan4",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "CountofRecords",
+							"value": {
+								"value": "@string(activity('spSelectAll').output)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "On Success of DividebyZeroError",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "DivideByZero",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "CountofRecords",
+							"value": "3"
+						}
+					},
+					{
+						"name": "On Completion",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "DivideByZero",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "CountofRecords",
+							"value": "2"
+						}
+					},
+					{
+						"name": "On Failure",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "CountofRecords",
+							"value": "1"
+						}
+					},
+					{
+						"name": "DivideByZero",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "spSelectAll",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "BEGIN TRY\n    -- Generate a divide-by-zero error.\n    SELECT 1/0;\nEND TRY\nBEGIN CATCH\n    Raiserror('Dead', 15, 102)\nEND CATCH;"
+							},
+							"dataset": {
+								"referenceName": "TestTable",
+								"type": "DatasetReference"
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"variables": {
+					"CountofRecords": {
+						"type": "String",
+						"defaultValue": "0"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
