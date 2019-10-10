@@ -87,14 +87,7 @@
 			{
 				"name": "On Success of DividebyZeroError",
 				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "DivideByZero",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "CountofRecords",
