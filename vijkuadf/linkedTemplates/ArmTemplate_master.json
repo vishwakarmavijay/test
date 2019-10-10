@@ -12,6 +12,10 @@
 			"metadata": "Integration runtime name",
 			"defaultValue": "VijKuIR"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
 		"VijKu_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'VijKu'"
@@ -45,6 +49,9 @@
 					},
 					"integrationRuntime_VijKuIR": {
 						"value": "[parameters('integrationRuntime_VijKuIR')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
 					},
 					"VijKu_connectionString": {
 						"value": "[parameters('VijKu_connectionString')]"

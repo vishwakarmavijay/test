@@ -8,6 +8,9 @@
 		"integrationRuntime_VijKuIR": {
 			"value": "VijKuIR"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
 		"VijKu_connectionString": {
 			"value": ""
 		}
