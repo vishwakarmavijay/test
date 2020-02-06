@@ -8,11 +8,20 @@
 		"integrationRuntime_VijKuIR": {
 			"value": "VijKuIR"
 		},
+		"integrationRuntime_myPC": {
+			"value": "myPC"
+		},
 		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
 		"VijKu_connectionString": {
 			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://humanaadlsstorage.dfs.core.windows.net"
 		}
 	}
 }
